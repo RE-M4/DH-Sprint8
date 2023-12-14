@@ -31,14 +31,18 @@ class ContentRowTop extends Component {
         super();
         this.state = {
             products : {},
-            users: {}
+            users: {},
+            productsTotalCategory: 0
         }
     }
 
     componentDidMount(){
         Promise.all([fetch('http://localhost:3000/api/products').then(response => response.json()),
                     fetch('http://localhost:3000/api/users').then(response => response.json())])
-                    .then(values => {this.setState({products: values[0]}), this.setState({users: values[1]})})
+                    .then(values => {this.setState({products: values[0]}); 
+                                    this.setState({users: values[1]}); 
+                                    this.setState({productsTotalCategory: values[0].totalPerCategory})
+                    })
     }
 
     componentDidUpdate() {
@@ -48,8 +52,7 @@ class ContentRowTop extends Component {
     render(){
         return(
             <>
-                {console.log(this.state.users)}
-                {this.state.products == '' || this.state.users == '' ? <h1>Cargando...</h1> : <div className="container-fluid">
+                {this.state.products == '' && this.state.users == '' ? <h1>Cargando...</h1> : <div className="container-fluid">
                 {/*Content Row Top*/}
                     <div className="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 className="h3 mb-0 text-gray-800">App Dashboard</h1>
@@ -58,7 +61,7 @@ class ContentRowTop extends Component {
                     <div className="row">
                         <ContentRowMovies titulo={'Total de productos'} cifra={this.state.products.total} borde={cardData[0].borde} icono={cardData[0].icono}/>
                         <ContentRowMovies titulo={'Total de usuarios'} cifra={this.state.users.total} borde={cardData[1].borde} icono={cardData[1].icono}/>
-                        <ContentRowMovies titulo={'Total de categorías'} cifra={2} borde={cardData[2].borde} icono={cardData[2].icono}/>
+                        <ContentRowMovies titulo={'Total de categorías en productos'} cifra={Object.keys(this.state.productsTotalCategory).length} borde={cardData[2].borde} icono={cardData[2].icono}/>
                     </div>
                     {/*End Content Row Movies*/}
                     {/*Content Row Last Movie in Data Base*/}

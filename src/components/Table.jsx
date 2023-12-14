@@ -18,21 +18,19 @@ let peliculas = [
     }
 ]
 
-function Table () {
+function Table (props) {
     return(
         <div>
             <table className="movieTable">
                 <thead>
                     <tr>
-                        <th>Título</th>
-                        <th>Duración</th>
-                        <th>Rating</th>
-                        <th>Géneros</th>
-                        <th>Premios</th>
+                        <th>{props.title}</th>
                     </tr>
                 </thead>
                 <tbody>
-                {peliculas.map((pelicula, i) => <TableRow titulo={pelicula.titulo} duracion={pelicula.duracion} rating={pelicula.rating} genero={pelicula.generos.map((genero,i) => <li key={i}>{genero}</li>)} premios={pelicula.premios} key={i}/>)}
+                {props.result.map((element, i) => <TableRow key={i}><td>{element.product_name}</td><td>{element.product_description}</td></TableRow>)}
+                {props.result.map((element, i) => <TableRow key={i}><td>{element.first_name}</td><td>{element.last_name}</td><td>{element.email}</td></TableRow>)}
+                {props.result.map((element, i) => <TableRow key={i}><td>{element.product_name}</td><td>{element.product_description}</td></TableRow>)}
                 </tbody>
             </table>
         </div>
